@@ -1,0 +1,6 @@
+#ignore pb files
+*.pb
+*.h5
+
+#ignore ipynb checkpoint folder
+.ipynb_checkpoints

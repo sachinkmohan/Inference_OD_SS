@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Inference_OD_SS.iml" filepath="$PROJECT_DIR$/.idea/Inference_OD_SS.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../run_obj_det_sem_seg/.idea/run_obj_det_sem_seg.iml" filepath="$PROJECT_DIR$/../run_obj_det_sem_seg/.idea/run_obj_det_sem_seg.iml" />
-    </modules>
-  </component>
-</project>

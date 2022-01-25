@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+## Why was this file created - In this file the OD and SS are converted into individual functions
+
 # ### Load tensorRT graph
 
 # In[1]:

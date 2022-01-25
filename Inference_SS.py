@@ -9,8 +9,13 @@
 import tensorflow as tf
 from tensorflow.python.platform import gfile
 
-#GRAPH_PB_PATH_TRT = './converted_trt_graph/trt_graph_ss_model.pb'
+#GRAPH_PB_PATH_TRT = './converted_trt_graph_ss/trt_graph_ss_model.pb'
 GRAPH_PB_PATH_FROZEN_SS='./frozen_model_ss/frozen_model_ss_plf.pb'
+
+tf_config = tf.ConfigProto()
+#tf_config.gpu_options.allow_growth = False
+tf_config.gpu_options.per_process_gpu_memory_fraction = 0.2
+tf_sess = tf.Session(config=tf_config)
 
 with tf.Session() as sess:
    print("load graph")
@@ -32,10 +37,6 @@ with tf.Session() as sess:
 # In[ ]:
 
 
-tf_config = tf.ConfigProto()
-tf_config.gpu_options.allow_growth = False
-
-tf_sess = tf.Session(config=tf_config)
 
 tf.import_graph_def(graph_def, name='')
 
@@ -59,10 +60,12 @@ print(tf_predictions)
 
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
-from IPython.display import clear_output
+#import matplotlib.pyplot as plt
+#from IPython.display import clear_output
 import time
 
+#import gi
+#gi.require_version('Gtk', '2.0')
 
 from tensorflow.python.keras.backend import set_session
 graph = tf.get_default_graph()
@@ -70,7 +73,7 @@ graph = tf.get_default_graph()
 
 #Capture the video from the camera
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture('videoplayback.mp4')
 
 
 while cap.isOpened():
@@ -82,11 +85,11 @@ while cap.isOpened():
     #Run the Detections using model.predict
 
     if ret:
-        #t0 = time.time()
+        t0 = time.time()
         with graph.as_default():
             set_session(sess)
             inputs, predictions = tf_sess.run([tf_input, tf_predictions], feed_dict={
-            tf_input: image_resized2[None, ...]
+            tf_input: image_resized3[None, ...]
         })
         #cv2.imwrite('file5.jpeg', 255*predictions.squeeze())
         pred_image = 255*predictions.squeeze()
@@ -96,10 +99,12 @@ while cap.isOpened():
 
         #Color map autumn is applied to the CV_8UC1 pred_image
         im_color = cv2.applyColorMap(u8, cv2.COLORMAP_AUTUMN)
-        cv2.imshow('input image', image_resized2)
+        cv2.imshow('input image', image_resized3)
         cv2.imshow('prediction mask',im_color)
-        #t1 = time.time()
+        t1 = time.time()
         #print('Runtime: %f seconds' % (float(t1 - t0)))
+        print((float(t1 - t0)))
+
         #cv2.waitKey(0)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break

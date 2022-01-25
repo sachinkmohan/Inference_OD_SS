@@ -11,12 +11,15 @@ from tensorflow.python.platform import gfile
 
 from ssd_encoder_decoder.ssd_output_decoder import decode_detections, decode_detections_fast
 
+import time
+
+#GRAPH_PB_PATH_TRT = './converted_trt_graph_od/trt_graph_base_30.pb'
 GRAPH_PB_PATH_OD = './frozen_model_od/tf_ssd7_model.pb'
 
 
 tf_config = tf.ConfigProto()
 #tf_config.gpu_options.allow_growth = False
-tf_config.gpu_options.per_process_gpu_memory_fraction = 0.5
+tf_config.gpu_options.per_process_gpu_memory_fraction = 0.3
 tf_sess1 = tf.Session(config=tf_config)
 
 #loading the graph for OD
@@ -89,9 +92,10 @@ while cap.isOpened():
     ret, frame = cap.read()
 
     image_resized2 = cv2.resize(frame, (480,300))
-    image_resized3 = cv2.resize(frame, (480, 320))
+    #image_resized3 = cv2.resize(frame, (480, 320))
 
     if ret:
+        t0 = time.time()
         with graph.as_default():
             set_session(sess1)
             inputs1, predictions1 = tf_sess1.run([tf_input1, tf_predictions1], feed_dict={
@@ -118,6 +122,8 @@ while cap.isOpened():
             cv2.rectangle(image_resized2, (int(xmin),int(ymin)),(int(xmax),int(ymax)), color=(0,255,0), thickness=2 )
             cv2.putText(image_resized2, label, (int(xmin), int(ymin)), font, fontScale, color, thickness)
         cv2.imshow('Input Images',image_resized2)
+        t1 = time.time()
+        print((float(t1 - t0)))
 
         #cv2.waitKey(0)
         if cv2.waitKey(1) & 0xFF == ord('q'):

@@ -181,6 +181,8 @@ while cap.isOpened():
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
         
+
+
         ## Semantic Segmentation Inference here
         with graph.as_default():
             set_session(sess2)

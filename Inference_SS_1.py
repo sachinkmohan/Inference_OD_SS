@@ -3,8 +3,7 @@
 
 # ### Loading the converted tensor RT pb graph
 
-# In[1]:
-
+# Why this file was created - This file also calls Inference_OD file, which means it runs both OD and SS at the same time
 
 import tensorflow as tf
 from tensorflow.python.platform import gfile

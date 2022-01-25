@@ -4,3 +4,6 @@
 
 .*
 !/.gitignore
+
+#ignore mp4 files
+*.mp4
